@@ -88,6 +88,8 @@ CookieStore.prototype.render = function () {
   wordHTotal.textContent = ('Hourly Location Totals');
   row3.appendChild(wordHTotal);
 
+  
+
 // (name, minCust, maxCust, avgSales)
 new CookieStore('Seattle', 23, 65, 6.3);
 new CookieStore('Tokyo', 3, 24, 1.2);
@@ -128,3 +130,4 @@ for (let i = 0; i < dailyHours.length; i++) {
 
 }
 
+table.dailyHours(new Font("Arial", Font.BOLD, 20));
