@@ -1,14 +1,20 @@
 'use strict';
 
-let myForm = document.getElementById('storeForm');
-
 let locationSection = document.getElementById('city-location');
+
+let myForm = document.getElementById('storeForm');
 
 let storeArr = [];
 
 
 let dailyHours = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm'];
 
+// grabbed from MDN
+function randomSales(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+// console.dir(locationSection);
 
 function CookieStore(name, minCust, maxCust, avgSales) {
   this.name = name;
@@ -104,15 +110,7 @@ function renderAll() {
     storeArr[i].render();
   }
 }
-
 renderAll();
-
-console.log(storeArr);
-
-// grabbed from MDN
-function randomSales(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
 
 function makeTotalsRow() {
 
@@ -120,24 +118,20 @@ function makeTotalsRow() {
   document.querySelector('table').appendChild(tableFoot);
   let row3 = document.createElement('tr');
   let tableFooter = document.createElement('th');
-  tableFoot.textContent = ('Hourly Location Totals');
+  tableFooter.innerText = ('Hourly Location Totals');
   row3.appendChild(tableFooter);
 
   let grandtotalDay = 0;
-  for (let i = 0; i <dailyHours.length; i++) {
+  for (let i = 0; i < dailyHours.length; i++) {
   let hourlyTotal = 0;
   for (let j = 0; j < storeArr.length; j++){
     hourlyTotal += storeArr [j].cookieTotals[i];
-    console.log(storeArr[j].cookieTotals[i]);
+    grandtotalDay += storeArr[j].cookieTotals[i];
   }
 
   let hTotal = document.createElement('td');
   hTotal.innerText = hourlyTotal;
   row3.appendChild(hTotal);
-
-  console.log(hTotal);
-  console.log(hourlyTotal);
-
 }
 
   let tableFoo = document.createElement ('td');
@@ -147,13 +141,17 @@ function makeTotalsRow() {
   console.log(grandtotalDay);
 }
 
+makeTotalsRow();
+
 // Define Callback
 function handleSubmit(event){
 
 //Stop Default Behavior
   event.preventDefault();
-
+  
 //Gathering Info 
+  let storeForm = event.target;
+
   let name = storeForm.name.value;
   let minCust = parseInt(storeForm.minCust.value);
   let maxCust =  parseInt(storeForm.maxCust.value);
@@ -165,6 +163,7 @@ function handleSubmit(event){
 
 
 //Render Location
+  document.querySelector('table').deleteTFoot();
   newLocation.getSales();
   newLocation.render();
   makeTotalsRow();
@@ -172,10 +171,15 @@ function handleSubmit(event){
 
 //Form Reset
   myForm.reset();
-
 }
 
-document.querySelector('table').deleteTFoot();
+  
+// Attach Event Listener
+myForm.addEventListener('submit', handleSubmit);
+  
+
+
+
 
 
 // renderFooter();
@@ -202,7 +206,5 @@ document.querySelector('table').deleteTFoot();
 
 //   }
 
-// Attach Event Listener
 
-myForm.addEventListener('submit', handleSubmit);
 
