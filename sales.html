@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>  
+
+<head>
   <title>Sales</title>
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/style.css">
@@ -8,6 +9,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
   <header>
     <nav>
@@ -25,10 +27,29 @@
   <img src="img/salmon.png" alt="" class="center">
   <br>
   <main>
-  <h2>Locations</h2>
-  <section id="city-location"></section>
+    <h2>Locations</h2>
+    <section id="city-location"></section>
+    <br>
+    <article class="center">
+      <form id="storeForm">
+        <fieldset>
+          <legend>New Cookie Store</legend>
+          <label for="name">Location</label>
+          <input id="name" type="text" name="name">
+          <label for="minCust">Min Customers per Hour</label>
+          <input id="minCust" type="number" name="minCust">
+          <label for="maxCust">Max Customers per Hour</label>
+          <input id="maxCust" type="number" name="maxCust">
+          <label for="avgSales">Avg Cookies per Customer</label>
+          <input id="avgSales" type="number" name="avgSales">
+        </fieldset>
+        <button type="submit">Submit</button>
+      </form>
+    </article>
   </main>
-
- <script src="./js/app.js"> </script> 
+  <footer></footer>
+  <script src="./js/app.js"> </script>
+  <!-- <tfoot id="tablefooter"></tfoot> -->
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 'use strict';
 
+let myForm = document.getElementById('storeForm');
 
 let locationSection = document.getElementById('city-location');
 
@@ -8,7 +9,6 @@ let storeArr = [];
 
 let dailyHours = ['6:00am', '7:00am', '8:00am', '9:00am', '10:00am', '11:00am', '12:00pm', '1:00pm', '2:00pm', '3:00pm', '4:00pm', '5:00pm', '6:00pm', '7:00pm'];
 
-console.dir(locationSection);
 
 function CookieStore(name, minCust, maxCust, avgSales) {
   this.name = name;
@@ -81,12 +81,13 @@ CookieStore.prototype.render = function () {
   wordTotal.textContent = ('Daily Location Total');
   row1.appendChild(wordTotal);
 
-  let row3 = document.createElement('tfoot');
-  tableElem.appendChild(row3);
+  // let tfoot 
+  // let row3 = document.createElement('tfoot');
+  // tableElem.appendChild(row3);
 
-  let wordHTotal = document.createElement('th');
-  wordHTotal.textContent = ('Hourly Location Totals');
-  row3.appendChild(wordHTotal);
+  // let wordHTotal = document.createElement('th');
+  // wordHTotal.textContent = ('Hourly Location Totals');
+  // row3.appendChild(wordHTotal);
 
   
 
@@ -113,8 +114,17 @@ function randomSales(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-let grandtotalDay = 0;
-for (let i = 0; i < dailyHours.length; i++) {
+function makeTotalsRow() {
+
+  let tableFoot = document.createElement('tfoot');
+  document.querySelector('table').appendChild(tableFoot);
+  let row3 = document.createElement('tr');
+  let tableFooter = document.createElement('th');
+  tableFoot.textContent = ('Hourly Location Totals');
+  row3.appendChild(tableFooter);
+
+  let grandtotalDay = 0;
+  for (let i = 0; i <dailyHours.length; i++) {
   let hourlyTotal = 0;
   for (let j = 0; j < storeArr.length; j++){
     hourlyTotal += storeArr [j].cookieTotals[i];
@@ -122,7 +132,7 @@ for (let i = 0; i < dailyHours.length; i++) {
   }
 
   let hTotal = document.createElement('td');
-  hTotal.textContent = hourlyTotal;
+  hTotal.innerText = hourlyTotal;
   row3.appendChild(hTotal);
 
   console.log(hTotal);
@@ -130,4 +140,69 @@ for (let i = 0; i < dailyHours.length; i++) {
 
 }
 
-table.dailyHours(new Font("Arial", Font.BOLD, 20));
+  let tableFoo = document.createElement ('td');
+  tableFoo.innerText = grandtotalDay;
+  row3.appendChild(tableFoo);
+  tableFoot.appendChild(row3);
+  console.log(grandtotalDay);
+}
+
+// Define Callback
+function handleSubmit(event){
+
+//Stop Default Behavior
+  event.preventDefault();
+
+//Gathering Info 
+  let name = storeForm.name.value;
+  let minCust = parseInt(storeForm.minCust.value);
+  let maxCust =  parseInt(storeForm.maxCust.value);
+  let avgSales =  parseInt(storeForm.avgSales.value);
+
+
+//Object Constructor
+  let newLocation = new CookieStore(name, minCust, maxCust, avgSales);
+
+
+//Render Location
+  newLocation.getSales();
+  newLocation.render();
+  makeTotalsRow();
+
+
+//Form Reset
+  myForm.reset();
+
+}
+
+document.querySelector('table').deleteTFoot();
+
+
+// renderFooter();
+
+// function renderFooter() {
+//   let headerrow = document.createElement('tr');
+//   tableBody.appendChild(headerrow);
+//   var tdElement = document.createElement('td');
+
+//   tdElement.textContent = 'Daily Total';
+//   headerrow.appendChild(tdElement);
+
+//   var runningTotal;
+
+//   for (var i = 0; i < hours.length; i++) {
+//     var tdElement = document.createElement('td');
+//     var total = 0;
+//     for (var j = 0; j < city.length; j++) {
+//       total += city[i].custPerHourArray[j];
+//       runningTotal += city[i].custPerHourArray[j];
+//     }
+//     tdElement.textContent = total;
+//     headerrow.appendChild(tdElement);
+
+//   }
+
+// Attach Event Listener
+
+myForm.addEventListener('submit', handleSubmit);
+
